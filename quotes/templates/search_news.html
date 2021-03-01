@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<form action="{% url 'news' %}" class="form-inline my-2 my-lg-0" method="POST">
+	{% csrf_token %}    
+	<input class="form-control mr-sm-2" type="search" placeholder="Search news by ticker" aria-label="Search by ticker" name="ticker">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search News</button>
+</form>
+<br/>
+<br/>
+
+<div class="container">
+	<div class="row">
+		{% for text in api.articles %}	
+			<div class="card text-white bg-secondary mb-3" style="width: 17rem;">
+			  <a href="{{ text.url }}"><img href="{{ text.url }}" src="{{ text.urlToImage }}" class="card-img-top" alt="{{ text.urlToImage }}" class="list-group-item"></a>
+			  <div class="card-body">
+			    <h5 class="card-title">{{ text.title }}</h5>
+			    <p class="card-text">{{ text.description }}</p>
+			  </div>
+			  <ul class="list-group list-group-flush">
+			  	<em><li class="list-group-item text-white bg-secondary mb-3">{{ text.publishedAt }}</em> <br/><strong>{{ text.author}}</strong></li>
+			  </ul>
+			  <div class="card-body">
+			  	<a href="{{ text.url }}" class="btn btn-outline-dark">Read More</a>
+			  </div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{%block content %}
+
+
+{% if ticker %}
+	{{ ticker}}
+{% endif %}
+
+{% if api %}
+	{% if api == "Error" %}
+		<h5>The ticker symbol you typed is incorrect. Try Again!</h5>
+	{% else %}
+
+
+		<div class="card" style="width: 18rem;">
+		  <div class="card-body">
+		    <h3 class="card-title">{{ api.companyName }}</h3>
+		  </div>
+		  <ul class="list-group list-group-flush">
+		    <li class="list-group-item">Price: ${{ api.latestPrice}}</li>
+		    <li class="list-group-item">Previous Close: ${{ api.previousClose}}</li>
+		    <li class="list-group-item">Market Cap: ${{ api.marketCap}}</li>
+		    <li class="list-group-item">Ytd Change: {{ api.ytdChange}}%</li>
+		    <li class="list-group-item">Open: ${{ api.open }}</li>
+		    <li class="list-group-item">Close: ${{ api.close }}</li>
+		    <li class="list-group-item">High: ${{ api.high }}</li>
+		    <li class="list-group-item">Low: ${{ api.low }}</li>
+
+		  </ul>
+		</div>
+	
+	{% endif %}
+
+{% endif %}
+
+
+{% endblock %}

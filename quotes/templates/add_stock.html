@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{%block content %}
+
+
+<h1> Add stocks to Amanda's Portfolio</h1>
+<br/>
+
+<form action = "{% url 'add_stock'%}" class="d-flex" method = "POST">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Add a New Ticker to Amanda's Portfolio" aria-label="Search" name="ticker">
+        <button class="btn btn-outline-dark" type="submit"><strong>Add New Stock</strong></button>
+      </form>
+
+<br/>
+
+
+
+<table class="table caption-top table-dark table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Company Name</th>
+      <th scope="col">Stock Price</th>
+      <th scope="col">Previous Close</th>
+      <th scope="col">Market Cap</th>
+      <th scope="col">Ytd Change</th>
+      <th scope="col">Open</th>
+      <th scope="col">Close</th>
+      <th scope="col">High</th>
+      <th scope="col">Low</th>
+
+    </tr>
+  </thead>
+  <tbody>
+ {% if ticker %}
+
+	{% for ticker_list_item in ticker_list %}
+    {% if ticker_list_item.latestPrice >  ticker_list_item.previousClose %}
+  		<tr>
+	  		<th scope="row">{{ ticker_list_item.companyName }}</th>
+	    	<td><span style="color:green"><strong>⇧ ${{ ticker_list_item.latestPrice}}</strong></span></td>
+	    	<td>${{ ticker_list_item.previousClose}}</td>
+	    	<td>${{ ticker_list_item.marketCap}}</td>
+	    	<td>{{ ticker_list_item.ytdChange}}%</td>
+        <td>${{ ticker_list_item.open}}</td>
+        <td>${{ ticker_list_item.close}}</td>
+        <td>${{ ticker_list_item.high}}</td>
+        <td>${{ ticker_list_item.low}}</td>
+        
+	    </tr>
+    {% else %}
+      <tr>
+        <th scope="row">{{ ticker_list_item.companyName }}</th>
+        <td><span style="color:red"><strong>⇩${{ ticker_list_item.latestPrice}}</strong></span></td>
+        <td>${{ ticker_list_item.previousClose}}</td>
+        <td>${{ ticker_list_item.marketCap}}</td>
+        <td>{{ ticker_list_item.ytdChange}}%</td>
+        <td>${{ ticker_list_item.open}}</td>
+        <td>${{ ticker_list_item.close}}</td>
+        <td>${{ ticker_list_item.high}}</td>
+        <td>${{ ticker_list_item.low}}</td>
+        
+      </tr>
+    {% endif %}
+	{% endfor %}
+  
+{% endif %}
+
+  </tbody>
+</table>
+
+</br>
+</br>
+</br>
+
+{% endblock %}

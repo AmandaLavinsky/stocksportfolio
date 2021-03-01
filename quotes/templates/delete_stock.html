@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{%block content %}
+
+<h1> Delete Stocks</h1>
+<br/><br/>
+
+{% if ticker %}
+	<table class="table caption-top table-dark table-striped table-hover">
+		<thead>
+			<tr>
+		    	<th scope="col">Company Name</th>
+		    	<th scope="col">Delete Option</th>
+		    </tr>
+		 </thead>
+	{% for item in ticker %}
+		<tbody>
+			<tr>
+		    	<th scope="row">{{ item }}</th>
+		    	<td><a href="{% url 'delete' item.id %}">Delete Stock</a></td>
+		    </tr>
+		</tbody>
+	{% endfor %}
+	</table>
+{% else %}
+	In Amanda's Portfolio doesn't have any stocks!
+{% endif%}
+
+{% endblock %}
