@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #Utilizando o include para indicar o arquivo urls.py do app quotes
     path('',include('quotes.urls')),
 ]

@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Stock
-from .forms import StockForm
+from .models import Stock,UpperLimit,LowerLimit
+from .forms import StockForm,UpperLimitForm,LowerLimitForm
 from django.contrib import messages
-
-
+#from django.core.mail import send_mail
+#from stocks.settings import EMAIL_HOST_USER
 
 # Create your views here.
 
@@ -16,9 +16,10 @@ def home(request):
 		api_request = requests.get("https://cloud.iexapis.com/stable/stock/" + ticker + "/quote?token=pk_bc93d0a28f8e457a8d2218081561c802")
 
 		try:
+			#Converte JSON em um dicionário Python
 			api = json.loads(api_request.content)
-		except Exception as e:
-			api = "Error..."
+		except Exception:
+			api = "Error"
 		return render(request, 'home.html', {'api': api,'error':"Not access the api"})
 	
 	else:	
@@ -48,7 +49,7 @@ def search_news(request):
 
 		try:
 			api = json.loads(api_request.content)
-		except Exception as e:
+		except Exception:
 			api = "Error"
 		return render(request, 'search_news.html', {'api': api,'error':"Could not access the api"})
 	
@@ -80,7 +81,7 @@ def add_stock(request):
 				ticker_list.append(api)
 
 
-			except Exception as e:
+			except Exception:
 				api = "Error..."
 
 		return render(request,'add_stock.html',{'ticker': ticker, 'ticker_list':ticker_list})
@@ -94,3 +95,38 @@ def delete(request,stock_id):
 def delete_stock(request):
 	ticker = Stock.objects.all()
 	return render(request,'delete_stock.html',{'ticker': ticker})
+
+#def email():
+	#send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+
+
+def add_upperlimit(request):
+	import requests
+	ticker = Stock.objects.all()
+	if request.method == 'POST':
+		highprice = UpperLimitForm(request.POST or None)
+
+		if highprice.is_valid():
+			highprice.save()
+			messages.success(request,("The upper price limit has been set"))
+			return redirect('add_upperlimit')
+	else:
+		highprice = UpperLimit.objects.all()
+	return render(request,'add_upperlimit.html',{'highprice': highprice,'ticker': ticker})
+
+def add_lowerlimit(request):
+	import requests
+	ticker = Stock.objects.all()
+	if request.method == 'POST':
+		lowprice = LowerLimitForm(request.POST or None)
+
+		if lowprice.is_valid():
+			lowprice.save()
+			messages.success(request,("The lower price limit has been set"))
+			return redirect('add_lowerlimit')
+	else:
+		lowprice = LowerLimit.objects.all()
+	return render(request,'add_lowerlimit.html',{'lowprice': lowprice,'ticker': ticker})
+
+
+

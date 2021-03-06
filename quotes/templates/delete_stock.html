@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {%block content %}
 
-<h1> Delete Stocks</h1>
+<h1> Ticker Settings</h1>
 <br/><br/>
 
 {% if ticker %}
@@ -9,14 +9,18 @@
 		<thead>
 			<tr>
 		    	<th scope="col">Company Name</th>
-		    	<th scope="col">Delete Option</th>
+				<th scope="col">Delete Option</th>
+				<th scope="col">Lower Limit Price</th>
+				<th scope="col">Upper Limit Price</th>
 		    </tr>
 		 </thead>
 	{% for item in ticker %}
 		<tbody>
 			<tr>
 		    	<th scope="row">{{ item }}</th>
-		    	<td><a href="{% url 'delete' item.id %}">Delete Stock</a></td>
+				<td><a href="{% url 'delete' item.id %}">Delete Stock</a></td>
+				<td><a href="{% url 'add_lowerlimit' %}">Set Low Price</a></td>
+				<td><a href="{% url 'add_upperlimit' %}">Set High Price</a></td>
 		    </tr>
 		</tbody>
 	{% endfor %}

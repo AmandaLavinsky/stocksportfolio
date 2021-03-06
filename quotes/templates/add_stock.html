@@ -33,20 +33,20 @@
   <tbody>
  {% if ticker %}
 
-	{% for ticker_list_item in ticker_list %}
+  {% for ticker_list_item in ticker_list %}
     {% if ticker_list_item.latestPrice >  ticker_list_item.previousClose %}
-  		<tr>
-	  		<th scope="row">{{ ticker_list_item.companyName }}</th>
-	    	<td><span style="color:green"><strong>⇧ ${{ ticker_list_item.latestPrice}}</strong></span></td>
-	    	<td>${{ ticker_list_item.previousClose}}</td>
-	    	<td>${{ ticker_list_item.marketCap}}</td>
-	    	<td>{{ ticker_list_item.ytdChange}}%</td>
+      <tr>
+        <th scope="row">{{ ticker_list_item.companyName }}</th>
+        <td><span style="color:green"><strong>⇧ ${{ ticker_list_item.latestPrice}}</strong></span></td>
+        <td>${{ ticker_list_item.previousClose}}</td>
+        <td>${{ ticker_list_item.marketCap}}</td>
+        <td>{{ ticker_list_item.ytdChange}}%</td>
         <td>${{ ticker_list_item.open}}</td>
         <td>${{ ticker_list_item.close}}</td>
         <td>${{ ticker_list_item.high}}</td>
         <td>${{ ticker_list_item.low}}</td>
         
-	    </tr>
+      </tr>
     {% else %}
       <tr>
         <th scope="row">{{ ticker_list_item.companyName }}</th>
@@ -61,7 +61,7 @@
         
       </tr>
     {% endif %}
-	{% endfor %}
+  {% endfor %}
   
 {% endif %}
 
